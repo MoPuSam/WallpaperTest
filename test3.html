@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type='text/javascript' src='js/jquery-1.9.1.min.js'></script>
+    <script type='text/javascript' src='js/jquery.particleground.min.js'></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      #scroller {
+        overflow: hidden;
+        position: relative;
+      }
+
+
+      li {
+        list-style: none;
+      }
+
+      ul {
+        position: relative;
+        /* overflow: hidden; */
+        z-index: 1;
+      }
+
+      ul li {
+        position: absolute;
+        left: 0;
+        top: 0;
+
+      }
+
+      /* 左右箭头 */
+      div:hover .arr {
+        display: block;
+      }
+
+      .preArr {
+        left: 0;
+      }
+
+      .nextArr {
+        right: 0;
+        background-position: -40px 0;
+      }
+
+      #k{
+
+      }
+    </style>
+</head>
+<body style="background: url('img/2019夏日高清横版.jpg') no-repeat;">
+  <div id="scroller" class="scroll">
+    <ul>
+      <li>
+        <img class="simage" src="img/IMG_2567.JPG" alt="">
+      </li>
+      <li>
+        <img class="simage" src="img/IMG_2568.JPG" alt="">
+      </li>
+
+    </ul>
+    <span class="arr preArr"></span>
+    <span class="arr nextArr"></span>
+    <div id="myfixedelement" style=" position: absolute;width:100%;height: 100%;display: none;display: block;z-index: 3;">
+    </div>
+    <div id="k" style="position: absolute; width: 300px; height: 200px;text-align: center;color:#fff;z-index: 5;">
+      <h1>EVA</h1>
+      <p>A jQuery plugin for snazzy background particle systems</p>
+    </div>
+  </div>
+</body>
+<script>
+  var index = 0;
+  var z_index = 100;
+  var timer = null;
+  $(function () {
+    // 二、点击左边按钮切换，当切换到第一张图片时，继续点击切换，显示第五张图片；
+    $('.preArr').click(function () {
+      index--;
+      if (index < 0) {
+        index = 1;
+      }
+      play();
+    });
+    // 三、点击右边边按钮切换，当切换到第五张图片时，继续点击切换，显示第一张图片；
+    $('.nextArr').click(function () {
+      index++;
+      if (index > 4) {
+        index = 0;
+      }
+      play();
+    });
+    // 五、自动播放setInterval(执行函数，时间)
+    function playAuto(){
+      timer = setInterval(function () {
+        $('.nextArr').click();
+      }, 1000);
+    }
+    playAuto();
+    //步骤一、图片切换方法
+    function play() {
+      z_index++;
+      // 当前图片淡入fadeTo(时间，透明度)，透明度0（完全透明）~1（不完全透明）
+      $('ul li:eq(' + index + ')').css('z-index', z_index).hide().stop().fadeTo(500, 1);
+    }
+    var winHeight = $(window).height();
+    var winWidth = $(window).width();
+    $("#scroller").height(winHeight);
+    $("#scroller").width(winWidth);
+    $("img.simage").height(winHeight);
+    $("img.simage").width(winWidth);
+    $("#k").css("margin-left",winWidth/2-150);
+    $("#k").css("margin-top",winHeight/2-100);
+    $('#myfixedelement').particleground({
+      dotColor: '#fff',
+      lineColor: '#fff'
+    });
+  })
+</script>
+</html>
